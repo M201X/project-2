@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query
 from sqlmodel import Session, select
 from database import get_session
-from dependencies import get_current_user, get_task_or_404
+from dependencies import get_current_user, get_task_or_404,require_roles
 from enums import Priority, Status, Role
 from model import User, Task
 from dtos.requests import (
@@ -181,16 +181,22 @@ def complete_task(
 )
 def delete_task(
     task_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        require_roles(Role.admin)
+    ),
     session: Session = Depends(get_session)
 ):
-    task = get_task_or_404(
-        task_id,
-        current_user,
-        session
-    )
+    task = session.get(Task, task_id)
+
+    if task is None:
+        from fastapi import HTTPException
+
+        raise HTTPException(
+            status_code=404,
+            detail="Task not found"
+        )
 
     session.delete(task)
     session.commit()
-    return None
 
+    return None

@@ -46,7 +46,7 @@ A small task-management REST API built with [FastAPI](https://fastapi.tiangolo.c
 2. Install the dependencies:
 
    ```bash
-   pip install -r req.txt
+   pip install -r requirements.txt
    ```
 
 ## Configuration
@@ -179,15 +179,18 @@ GET /tasks?status=todo&priority=high&limit=20
 | File | Purpose |
 | --- | --- |
 | `main.py` | Creates the FastAPI application and initializes the database |
-| `route.py` | Authentication and task API routes |
-| `model.py` | SQLModel database models and request/response schemas |
+| `routerss/auth.py` | Authentication and user API routes |
+| `routerss/tasks.py` | Task API routes |
+| `dtos/requests.py` | Request validation schemas |
+| `dtos/responses.py` | Response schemas |
+| `model.py` | SQLModel database models |
 | `database.py` | Database engine, table creation, and session dependency |
 | `security.py` | Password hashing and JWT creation/decoding |
 | `dependencies.py` | Current-user and role-based authorization dependencies |
 | `enums.py` | Task status, priority, and user role values |
 | `config.py` | Environment-backed application settings |
 | `create_admin.py` | Interactive administrator creation script |
-| `req.txt` | Python dependency pins |
+| `requirements.txt` | Python dependency pins |
 
 ## Notes
 
